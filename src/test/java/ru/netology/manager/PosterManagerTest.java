@@ -2,9 +2,15 @@ package ru.netology.manager;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import ru.netology.domain.Poster;
+import ru.netology.repository.PosterRepository;
+
+import static org.mockito.Mockito.*;
 
 public class PosterManagerTest {
+
+    PosterRepository repo = Mockito.mock(PosterRepository.class);
 
     Poster film1 = new Poster(1, "Бладшот", "боевик");
     Poster film2 = new Poster(2,"Вперед", "мультфильм");
@@ -19,64 +25,12 @@ public class PosterManagerTest {
     Poster film11 = new Poster(11,"Девятаев", "драма, приключения");
 
 
-    //Проверка пустого списка
-    @Test
-    public void shouldAddNoFilm() {
-        PosterManager manager = new PosterManager(-2);
-
-        Poster[] expected = {};
-        Poster[] actual = manager.findAll();
-
-        Assertions.assertArrayEquals(expected, actual);
-    }
-
-    //Проверка списка с одним добавленным фильмом
-    @Test
-    public void shouldAddOneFilm() {
-        PosterManager manager = new PosterManager();
-
-        manager.add(film1);
-
-        Poster[] expected = { film1 };
-        Poster[] actual = manager.findAll();
-
-        Assertions.assertArrayEquals(expected, actual);
-    }
-
-    //Проверка списка с несколькими добавленными фильмами
-    @Test
-    public void shouldAddManyFilmsAndShowingInOrderAddition() {
-        PosterManager manager = new PosterManager();
-
-        manager.add(film1);
-        manager.add(film2);
-        manager.add(film3);
-        manager.add(film4);
-        manager.add(film5);
-        manager.add(film6);
-
-        Poster[] expected = { film1, film2, film3, film4, film5, film6 };
-        Poster[] actual = manager.findAll();
-
-        Assertions.assertArrayEquals(expected, actual);
-    }
-
-    //Вывод списка фильмов с 4 фильмами  в порядке добавления
+    //Вывод списка фильмов с 4 фильмами в порядке добавления
     @Test
     public void ShowingReverseAFewAddition() {
-        PosterManager manager = new PosterManager(4);
-
-        manager.add(film1);
-        manager.add(film2);
-        manager.add(film3);
-        manager.add(film4);
-        manager.add(film5);
-        manager.add(film6);
-        manager.add(film7);
-        manager.add(film8);
-        manager.add(film9);
-        manager.add(film10);
-        manager.add(film11);
+        PosterManager manager = new PosterManager(4, repo);
+        Poster[] films = { film1, film2, film3, film4, film5, film6, film7, film8, film9, film10, film11 };
+        doReturn(films).when(repo).findAll();
 
         Poster[] expected = { film11, film10, film9, film8 };
         Poster[] actual = manager.findLast();
@@ -87,19 +41,9 @@ public class PosterManagerTest {
     //Вывод списка фильмов с 10 фильмов в порядке добавления
     @Test
     public void ShowingReverseAllAddition() {
-        PosterManager manager = new PosterManager();
-
-        manager.add(film1);
-        manager.add(film2);
-        manager.add(film3);
-        manager.add(film4);
-        manager.add(film5);
-        manager.add(film6);
-        manager.add(film7);
-        manager.add(film8);
-        manager.add(film9);
-        manager.add(film10);
-        manager.add(film11);
+        PosterManager manager = new PosterManager(repo);
+        Poster[] films = { film1, film2, film3, film4, film5, film6, film7, film8, film9, film10, film11 };
+        doReturn(films).when(repo).findAll();
 
         Poster[] expected = { film11, film10, film9, film8, film7, film6, film5, film4, film3, film2 };
         Poster[] actual = manager.findLast();
