@@ -1,45 +1,36 @@
 package ru.netology.manager;
 
 import ru.netology.domain.Poster;
+import ru.netology.repository.PosterRepository;
 
 
 public class PosterManager {
-    private Poster[] films = new Poster[0];
+    private PosterRepository repo;
     private int postersQuantity;
 
     //задает лимит менеджера = 10
-    public PosterManager() {
+    // и принимает ячейку типа PosterRepository
+      public PosterManager(PosterRepository repo) {
+        this.repo = repo;
         postersQuantity = 10;
-    }
 
+    }
     //задает лимит менеджера из параметра конструктора
-    public PosterManager(int newPostersQuantity) {
+    // и принимает ячейку типа PosterRepository
+    public PosterManager(int newPostersQuantity, PosterRepository repo) {
+        this.repo = repo;
         if (newPostersQuantity >= 0) {
             postersQuantity = newPostersQuantity;
         }
     }
 
-    //добавляет новый фильм в массив с фильмами
-    public void add(Poster film) {
-        Poster[] tmp = new Poster[films.length + 1];
-        for (int i = 0; i < films.length; i++) {
-            tmp[i] = films[i];
-        }
-        tmp[tmp.length - 1] = film;
-        films = tmp;
-    }
-
-    //выводит все фильмы в порядке добавления
-    public Poster[] findAll() {
-        return films;
-    }
-
     //выводит заданное количество фильмов в обратном от добавления порядке
     public Poster[] findLast() {
-        Poster[] reversed = new Poster[postersQuantity];
-        for (int i = 0; i < reversed.length; i++) {
-            reversed[i] = films[films.length - 1 - i];
-        }
-        return reversed;
+          Poster[] all = repo.findAll();
+          Poster[] reversed = new Poster[postersQuantity];
+          for (int i = 0; i < reversed.length; i++) {
+              reversed[i] = all[all.length - 1 - i];
+          }
+          return reversed;
     }
 }
