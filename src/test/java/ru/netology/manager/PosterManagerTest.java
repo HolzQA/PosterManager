@@ -61,9 +61,9 @@ public class PosterManagerTest {
         Assertions.assertArrayEquals(expected, actual);
     }
 
-    //Вывод списка фильмов с 4 фильмами  в порядке добавления
+    //Вывод списка фильмов с 4 фильмами  в обратном порядке при наличии 11 фильмов
     @Test
-    public void ShowingReverseAFewAddition() {
+    public void ShowingAFewReverseAddition() {
         PosterManager manager = new PosterManager(4);
 
         manager.add(film1);
@@ -84,9 +84,9 @@ public class PosterManagerTest {
         Assertions.assertArrayEquals(expected, actual);
     }
 
-    //Вывод списка фильмов с 10 фильмов в порядке добавления
+    //Вывод списка с 10 фильмами в обратном порядке при наличии 11 фильмов (больше, чем лимит)
     @Test
-    public void ShowingReverseAllAddition() {
+    public void ShowingLimitFromManyReverseAddition() {
         PosterManager manager = new PosterManager();
 
         manager.add(film1);
@@ -102,6 +102,46 @@ public class PosterManagerTest {
         manager.add(film11);
 
         Poster[] expected = { film11, film10, film9, film8, film7, film6, film5, film4, film3, film2 };
+        Poster[] actual = manager.findLast();
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    //Вывод списка с 10 фильмами в обратном порядке при наличии 6 фильмов (меньше, чем лимит)
+    @Test
+    public void ShowingLimitFromLessReverseAllAddition() {
+        PosterManager manager = new PosterManager();
+
+        manager.add(film1);
+        manager.add(film2);
+        manager.add(film3);
+        manager.add(film4);
+        manager.add(film5);
+        manager.add(film6);
+
+        Poster[] expected = { film6, film5, film4, film3, film2, film1 };
+        Poster[] actual = manager.findLast();
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    //Вывод списка с 10 фильмами в обратном порядке при наличии 10 фильмов (столько же, сколько лимит)
+    @Test
+    public void ShowingLimitFromAsManyReverseAllAddition() {
+        PosterManager manager = new PosterManager();
+
+        manager.add(film1);
+        manager.add(film2);
+        manager.add(film3);
+        manager.add(film4);
+        manager.add(film5);
+        manager.add(film6);
+        manager.add(film7);
+        manager.add(film8);
+        manager.add(film9);
+        manager.add(film10);
+
+        Poster[] expected = { film10, film9, film8, film7, film6, film5, film4, film3, film2, film1 };
         Poster[] actual = manager.findLast();
 
         Assertions.assertArrayEquals(expected, actual);

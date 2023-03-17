@@ -36,7 +36,11 @@ public class PosterManager {
 
     //выводит заданное количество фильмов в обратном от добавления порядке
     public Poster[] findLast() {
-        Poster[] reversed = new Poster[postersQuantity];
+        int arrayLenght = postersQuantity;
+        if (films.length < postersQuantity) {
+            arrayLenght = films.length;
+        }
+        Poster[] reversed = new Poster[arrayLenght];
         for (int i = 0; i < reversed.length; i++) {
             reversed[i] = films[films.length - 1 - i];
         }
