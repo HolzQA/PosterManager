@@ -26,11 +26,15 @@ public class PosterManager {
 
     //выводит заданное количество фильмов в обратном от добавления порядке
     public Poster[] findLast() {
-          Poster[] all = repo.findAll();
-          Poster[] reversed = new Poster[postersQuantity];
-          for (int i = 0; i < reversed.length; i++) {
-              reversed[i] = all[all.length - 1 - i];
-          }
-          return reversed;
+        int arrayLenght = postersQuantity;
+        Poster[] all = repo.findAll();
+        if (all.length < postersQuantity) {
+            arrayLenght = all.length;
+        }
+        Poster[] reversed = new Poster[arrayLenght];
+        for (int i = 0; i < reversed.length; i++) {
+            reversed[i] = all[all.length - 1 - i];
+        }
+        return reversed;
     }
 }
